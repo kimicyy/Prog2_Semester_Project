@@ -6,6 +6,17 @@ using System.Linq;
 using static System.Console;
 using static System.Math;
 
+class Event{
+    double priority;
+    string eventName;
+    var priorityStrToDouble = new Dictionary<string, double>{
+        {  }
+    };
+    public Event(string eventName, string priorityStr){
+        
+    }
+}
+
 class Calendar{
     static void Main(){
 

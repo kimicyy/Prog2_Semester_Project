@@ -21,7 +21,7 @@ class Event{
     public int endSec;
     public string? sideNote; 
     public Dictionary<string, double> priorityStrToDouble = new Dictionary<string, double>{
-        { "Urgent", 10.0 }, { "Normal", 5.0 }, { "Ignorable", 1.0 }
+        { "Urgent", 10.0 }, { "Normal", 5.0 }, { "Trivial", 1.0 }
     };
 
     public Event(string eventName, string priorityStr, int startYear, int startMonth, int startHour, int startMin, int startSec,

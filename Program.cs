@@ -43,13 +43,14 @@ class Event{
 }
 
 class Calendar{
-    PriorityQueue<Event, int> events;
+    PriorityQueue<Event, double> events;
 
     public Calendar(){
-        this.events = new PriorityQueue<Event, int>();
+        this.events = new PriorityQueue<Event, double>();
     }
 
-    public void addEvent(Event e){
+    public void addEvent(Event eve){
+        events.Enqueue(eve, eve.priority);
     }
 
     static void Main(){

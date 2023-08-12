@@ -55,8 +55,19 @@ class Calendar{
         events.Enqueue(eve, eve.priority);
         eventList.Add(eve);
     }
+}
 
+class User{
+    string name;
+    Calendar calendar;
+    public User(string name){
+        this.name = name;
+        this.calendar = new Calendar();
+    }
+}
+
+class Top{
     static void Main(){
-
+        
     }
 }

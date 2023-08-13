@@ -11,6 +11,7 @@ class Event{
     public string eventName;
     public int startYear; 
     public int startMonth;
+    public int startDay
     public int startHour;
     public int startMin;
     public int startSec;
@@ -24,17 +25,20 @@ class Event{
         { "Urgent", 10.0 }, { "Normal", 5.0 }, { "Trivial", 1.0 }
     };
 
-    public Event(string eventName, string priorityStr, int startYear, int startMonth, int startHour, int startMin, int startSec,
-                    int endYear, int endMonth, int endHour, int endMin, int endSec, string? sideNote = null){
+    public Event(string eventName, string priorityStr, int startYear, int startMonth, int startDay, 
+                    int startHour, int startMin, int startSec, int endYear, int endMonth, int endDay, 
+                    int endHour, int endMin, int endSec, string? sideNote = null){
         this.priority = priorityStrToDouble[priorityStr];
         this.eventName = eventName;
         this.startYear = startYear;
         this.startMonth = startMonth;
+        this.startDay = startDay;
         this.startHour = startHour;
         this.startMin = startMin;
         this.startSec = startSec;
         this.endYear = endYear;
         this.endMonth = endMonth;
+        this.endDay = endDay;
         this.endHour = endHour;
         this.endMin = endMin;
         this.endSec = endSec;
@@ -45,6 +49,7 @@ class Event{
 class Calendar{
     PriorityQueue<Event, double> events;
     List<Event> eventList;
+    List<Event> eventListForSchedule;
 
     public Calendar(){
         this.events = new PriorityQueue<Event, double>();
@@ -55,6 +60,7 @@ class Calendar{
         events.Enqueue(eve, eve.priority);
         eventList.Add(eve);
     }
+    
 }
 
 class User{

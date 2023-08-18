@@ -71,7 +71,6 @@ class Calendar{
     public void addEvent(Event eve){
         var eveStartDatetime = Convert.ToDateTime($"{eve.startYear}-{eve.startMonth}-{eve.startDay} {eve.startHour}:{eve.startMin}:{eve.startSec}");
         var eveEndDatetime = Convert.ToDateTime($"{eve.endYear}-{eve.endMonth}-{eve.endDay} {eve.endHour}:{eve.endMin}:{eve.endSec}");
-        // TODO: fix adding events
         for (int i = 0; true; i++){
             if (i >= eventList.Count){
                 break;
@@ -94,7 +93,6 @@ class Calendar{
                         WriteLine($"Event \"{eve.eventName}\": {eve.priorityStr}");
                         WriteLine($"Event \"{e.eventName}\": {e.priorityStr}");
                         WriteLine($"Event \"{e.eventName}\" will be deleted since it has lower priority");
-                        eventList.Add(eve);
                         eventList.Remove(e);
                         continue;
                     }
@@ -113,7 +111,6 @@ class Calendar{
                     WriteLine($"Event \"{eve.eventName}\" and Event \"{e.eventName}\" have the same priority");
                     WriteLine($"Please choose which event to delete! (1 for \"{eve.eventName}\", 2 for \"{e.eventName}\")");
                     if (ReadLine()! == "2"){
-                        eventList.Add(eve);
                         eventList.Remove(e);
                     }
                     else{
@@ -124,6 +121,7 @@ class Calendar{
         }
         eventList.Add(eve);
     }
+
     public void generateSchedule(){
         foreach (var e in eventList){
             events.Enqueue(e, e.priority);

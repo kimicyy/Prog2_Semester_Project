@@ -128,10 +128,9 @@ class Calendar{
         }
         while (events.Count > 0){
             var eve = events.Dequeue();
-            Write($"Event {eve.eventName}: {eve.priorityStr}");
-            WriteLine($"")
+            WriteLine($"Event {eve.eventName}: {eve.priorityStr} ");
+            WriteLine($"\tFrom: {eve.startHour:00}:{eve.startMin:00}:{eve.startSec:00} To: {eve.endHour:00}:{eve.endMin:00}:{eve.endSec:00}");
         }
-        // TODO: need to show the time span of events
     }
 }
 

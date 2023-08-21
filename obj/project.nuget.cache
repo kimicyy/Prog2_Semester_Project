@@ -1,8 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "d4dN04s3HQpC/w8q6Q4eaUn9VTzOLxc6IlRjUGZ9L1JaIG5KDGEu1aRrz9Pgci8ASRUPSbNyB005HvjkehDs8g==",
+  "dgSpecHash": "1PqPBVHuh6gzT/W0aK0OvRpNM09V4Mn7azMZfjCUS5RZz+CtTQND/N/z4Nj4ZgJqIJpBJcQa+JQU2wbBqER3oA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\kimic\\OneDrive\\Desktop\\Prog2_Semester_Project\\Prog2_Semester_Project.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/Users/ohmymac/Desktop/Prog2_Semester_Project/Prog2_Semester_Project.csproj",
+  "expectedPackageFiles": [
+    "/Users/ohmymac/.nuget/packages/atksharp/3.24.24.95/atksharp.3.24.24.95.nupkg.sha512",
+    "/Users/ohmymac/.nuget/packages/cairosharp/3.24.24.95/cairosharp.3.24.24.95.nupkg.sha512",
+    "/Users/ohmymac/.nuget/packages/gdksharp/3.24.24.95/gdksharp.3.24.24.95.nupkg.sha512",
+    "/Users/ohmymac/.nuget/packages/giosharp/3.24.24.95/giosharp.3.24.24.95.nupkg.sha512",
+    "/Users/ohmymac/.nuget/packages/glibsharp/3.24.24.95/glibsharp.3.24.24.95.nupkg.sha512",
+    "/Users/ohmymac/.nuget/packages/gtksharp/3.24.24.95/gtksharp.3.24.24.95.nupkg.sha512",
+    "/Users/ohmymac/.nuget/packages/pangosharp/3.24.24.95/pangosharp.3.24.24.95.nupkg.sha512"
+  ],
   "logs": []
 }

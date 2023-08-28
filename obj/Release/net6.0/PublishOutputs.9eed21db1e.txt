@@ -1,0 +1,12 @@
+/Users/ohmymac/Desktop/Prog2_Semester_Project/bin/Release/net6.0/publish/Prog2_Semester_Project
+/Users/ohmymac/Desktop/Prog2_Semester_Project/bin/Release/net6.0/publish/Prog2_Semester_Project.dll
+/Users/ohmymac/Desktop/Prog2_Semester_Project/bin/Release/net6.0/publish/Prog2_Semester_Project.deps.json
+/Users/ohmymac/Desktop/Prog2_Semester_Project/bin/Release/net6.0/publish/Prog2_Semester_Project.runtimeconfig.json
+/Users/ohmymac/Desktop/Prog2_Semester_Project/bin/Release/net6.0/publish/Prog2_Semester_Project.pdb
+/Users/ohmymac/Desktop/Prog2_Semester_Project/bin/Release/net6.0/publish/AtkSharp.dll
+/Users/ohmymac/Desktop/Prog2_Semester_Project/bin/Release/net6.0/publish/CairoSharp.dll
+/Users/ohmymac/Desktop/Prog2_Semester_Project/bin/Release/net6.0/publish/GdkSharp.dll
+/Users/ohmymac/Desktop/Prog2_Semester_Project/bin/Release/net6.0/publish/GioSharp.dll
+/Users/ohmymac/Desktop/Prog2_Semester_Project/bin/Release/net6.0/publish/GLibSharp.dll
+/Users/ohmymac/Desktop/Prog2_Semester_Project/bin/Release/net6.0/publish/GtkSharp.dll
+/Users/ohmymac/Desktop/Prog2_Semester_Project/bin/Release/net6.0/publish/PangoSharp.dll

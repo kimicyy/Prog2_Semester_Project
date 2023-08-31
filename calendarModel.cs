@@ -59,11 +59,11 @@ class UserEvent{
     }
 }
 
-class Calendar{
+class UserCalendar{
     public PriorityQueue<UserEvent, double> events;
     public List<UserEvent> eventList;
 
-    public Calendar(){
+    public UserCalendar(){
         this.events = new PriorityQueue<UserEvent, double>();
         this.eventList = new List<UserEvent>();
         }
@@ -136,22 +136,22 @@ class Calendar{
 
 class User{
     public string name;
-    public Calendar calendar;
+    public UserCalendar userCalendar;
     public User(string name){
         this.name = name;
-        this.calendar = new Calendar();
+        this.userCalendar = new UserCalendar();
     }
 }
 
 class Top{
     static void Main(){
         var user1 = new User("Kimi");
-        user1.calendar.addUserEvent(new UserEvent("Make Lunch", "Urgent", 2023, 8, 14, 11, 0, 0, 
+        user1.userCalendar.addUserEvent(new UserEvent("Make Lunch", "Urgent", 2023, 8, 14, 11, 0, 0, 
         2023, 8, 14, 12, 0, 0));
-        user1.calendar.addUserEvent(new UserEvent("Do Homework", "Trivial", 2023, 8, 14, 11, 0, 0, 
+        user1.userCalendar.addUserEvent(new UserEvent("Do Homework", "Trivial", 2023, 8, 14, 11, 0, 0, 
         2023, 8, 14, 12, 0, 0));
-        user1.calendar.addUserEvent(new UserEvent("Make Dinner", "Urgent", 2023, 8, 14, 18, 0, 0, 
+        user1.userCalendar.addUserEvent(new UserEvent("Make Dinner", "Urgent", 2023, 8, 14, 18, 0, 0, 
         2023, 8, 14, 19, 0, 0));
-        user1.calendar.generateSchedule();
+        user1.userCalendar.generateSchedule();
     }
 }

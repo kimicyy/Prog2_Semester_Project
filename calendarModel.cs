@@ -122,6 +122,14 @@ class UserCalendar{
         eventList.Add(eve);
     }
 
+    public void deleteUserEvent(UserEvent eve){
+        for (int i = 0; i < eventList.Count; i++){
+            if (UserEvent.eventsEqual(eventList[i], eve)){
+                eventList.Remove(eventList[i]);
+            }
+        }
+    }
+
     public void generateSchedule(){
         foreach (var e in eventList){
             events.Enqueue(e, e.priority);
@@ -152,6 +160,8 @@ class Top{
         2023, 8, 14, 12, 0, 0));
         user1.userCalendar.addUserEvent(new UserEvent("Make Dinner", "Urgent", 2023, 8, 14, 18, 0, 0, 
         2023, 8, 14, 19, 0, 0));
+        user1.userCalendar.deleteUserEvent(new UserEvent("Make Lunch", "Urgent", 2023, 8, 14, 11, 0, 0, 
+        2023, 8, 14, 12, 0, 0));
         user1.userCalendar.generateSchedule();
     }
 }

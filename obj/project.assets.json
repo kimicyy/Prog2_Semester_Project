@@ -194,19 +194,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/ohmymac/.nuget/packages/": {}
+    "C:\\Users\\kimic\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/ohmymac/Desktop/Prog2_Semester_Project/Prog2_Semester_Project.csproj",
+      "projectUniqueName": "C:\\Users\\kimic\\OneDrive\\Desktop\\Prog2_Semester_Project\\Prog2_Semester_Project.csproj",
       "projectName": "Prog2_Semester_Project",
-      "projectPath": "/Users/ohmymac/Desktop/Prog2_Semester_Project/Prog2_Semester_Project.csproj",
-      "packagesPath": "/Users/ohmymac/.nuget/packages/",
-      "outputPath": "/Users/ohmymac/Desktop/Prog2_Semester_Project/obj/",
+      "projectPath": "C:\\Users\\kimic\\OneDrive\\Desktop\\Prog2_Semester_Project\\Prog2_Semester_Project.csproj",
+      "packagesPath": "C:\\Users\\kimic\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\kimic\\OneDrive\\Desktop\\Prog2_Semester_Project\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/ohmymac/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\kimic\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -251,7 +251,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.406/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.406\\RuntimeIdentifierGraph.json"
       }
     }
   }

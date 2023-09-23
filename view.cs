@@ -10,16 +10,17 @@ using System.Linq;
 using static System.Console;
 using static System.Math;
 
-class MyWindow : Window {
+class UserNameWindow : Window{
     public string userName = "";
     public bool userNameEntered = false;
     Entry userNameBox = new Entry();
 
-    public MyWindow() : base("Calendar: User Name") {
-        SetDefaultSize(1280, 720);
+    public UserNameWindow() : base("Calendar: User Name") {
+        SetDefaultSize(320, 280);
         Grid grid = new Grid();
-        grid.Attach(new Label("User Name"), 0, 0, 1, 1);
-        grid.Attach(userNameBox, 1, 0, 1, 1);
+        grid.Attach(new Label("Welcome to Smart Calendar!"), 0, 0, 3, 10);
+        grid.Attach(new Label("User Name"), 0, 10, 1, 1);
+        grid.Attach(userNameBox, 1, 10, 1, 1);
         grid.ColumnSpacing = 10;
         grid.RowSpacing = 5;
 
@@ -42,11 +43,13 @@ class MyWindow : Window {
         userName = userNameBox.Text;
         if (userName.Length > 0){
             userNameEntered = true;
+            var graphicalCalendar = new GraphicalCalendar(userName);
+            graphicalCalendar.ShowAll();
+            Destroy();
         }
         else{
             userNameEntered = false;
         }
-        Application.Quit();
     }
 
     void onQuit(object? sender, EventArgs args) {
@@ -59,13 +62,32 @@ class MyWindow : Window {
     }
 }
 
+class GraphicalCalendar : Window {
+    public GraphicalCalendar(string userName) : base($"{userName}'s Calendar"){
+        SetDefaultSize(320, 280);
+        Calendar calendar = new Calendar();
+        calendar.DaySelected += OnDaySelected;
+        Fixed fix = new Fixed();
+        fix.Put(calendar, 20, 20);
+        Add(fix);
+    }
+
+    void OnDaySelected(object sender, EventArgs args){
+        Calendar cal = (Calendar) sender;
+        // label.Text = cal.Month + 1 + "/" + cal.Day + "/" + cal.Year;
+    }
+
+    protected override bool OnDeleteEvent(Event e) {
+        Application.Quit();
+        return true;
+    }
+}
+
 class View{
-    static void Main() {
+    static void Main(){
         Application.Init();
-        MyWindow w = new MyWindow();
+        UserNameWindow w = new UserNameWindow();
         w.ShowAll();
         Application.Run();
-        WriteLine(w.userName);
-        WriteLine(w.userNameEntered);
     }
 }

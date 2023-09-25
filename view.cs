@@ -62,7 +62,9 @@ class UserNameWindow : Window{
     }
 }
 
-class GraphicalCalendar : Window {
+class GraphicalCalendar : Window{
+    public User user;
+
     public GraphicalCalendar(string userName) : base($"{userName}'s Calendar"){
         SetDefaultSize(320, 280);
         Calendar calendar = new Calendar();
@@ -70,16 +72,116 @@ class GraphicalCalendar : Window {
         Fixed fix = new Fixed();
         fix.Put(calendar, 20, 20);
         Add(fix);
+        this.user = new User(userName);
     }
 
-    void OnDaySelected(object sender, EventArgs args){
+    void OnDaySelected(object? sender, EventArgs args){
         Calendar cal = (Calendar) sender;
+        // var addEventWindow = new AddEventWindow(this, cal.Month + 1 + "/" + cal.Day + "/" + cal.Year);
         // label.Text = cal.Month + 1 + "/" + cal.Day + "/" + cal.Year;
+        using (AddEventDialog d = new AddEventDialog(this, cal.Month + 1 + "/" + cal.Day + "/" + cal.Year))
+            if (d.Run() == (int) ResponseType.Ok){
+                ComboBoxText[] comboBoxes = {
+                    d.priorityBox,
+                    d.fromHourBox,
+                    d.fromMinuteBox,
+                    d.fromSecondBox,
+                    d.toHourBox,
+                    d.toMinuteBox,
+                    d.toSecondBox
+                };
+                if (d.eventNameEntry.Text.Length <= 0){
+                    return;
+                }
+                foreach (var box in comboBoxes){
+                    if (box.ActiveText == null){
+                        return;
+                    }
+                }
+                // TODO: Add Event Here 
+            }
     }
 
+    
     protected override bool OnDeleteEvent(Event e) {
         Application.Quit();
         return true;
+    }
+}
+
+class AddEventDialog : Dialog{
+    static string[] priorityLevel = {
+        "Urgent",
+        "Normal",
+        "Trivial"
+    };
+
+    public ComboBoxText priorityBox = new ComboBoxText();
+    public ComboBoxText fromHourBox = new ComboBoxText();
+    public ComboBoxText fromMinuteBox = new ComboBoxText();
+    public ComboBoxText fromSecondBox = new ComboBoxText();
+    public ComboBoxText toHourBox = new ComboBoxText();
+    public ComboBoxText toMinuteBox = new ComboBoxText();
+    public ComboBoxText toSecondBox = new ComboBoxText();
+    public Entry eventNameEntry = new Entry();
+
+    public AddEventDialog(GraphicalCalendar parent, string dateStr) : base(dateStr, parent,
+            DialogFlags.Modal, "Add", ResponseType.Ok, "Cancel", ResponseType.Cancel) {
+        SetDefaultSize(560, 300);
+        
+        foreach (var priorityStr in priorityLevel) {
+            priorityBox.AppendText(priorityStr);
+        }
+        for (int i = 0; i < 24; i++){
+            string text = "";
+            if (i < 10){
+                text = $"0{i}";
+            }
+            else{
+                text = $"{i}";
+            }
+            fromHourBox.AppendText(text);
+            toHourBox.AppendText(text);
+        }
+        for (int i = 0; i < 60; i++){
+            string text = "";
+            if (i < 10){
+                text = $"0{i}";
+            }
+            else{
+                text = $"{i}";
+            }
+            fromMinuteBox.AppendText(text);
+            fromSecondBox.AppendText(text);
+            toMinuteBox.AppendText(text);
+            toSecondBox.AppendText(text);
+        }
+        Grid grid = new Grid();
+        grid.Attach(new Label("Event Name:"), 0, 0, 1, 1);
+        grid.Attach(eventNameEntry, 1, 0, 1, 1);
+        
+        grid.Attach(new Label("Event Priority: "), 0, 1, 1, 1);
+        grid.Attach(priorityBox, 1, 1, 1, 1);
+
+        grid.Attach(new Label("From: "), 0, 2, 1, 1);
+        grid.Attach(fromHourBox, 1, 2, 1, 1);
+        grid.Attach(new Label(":"), 2, 2, 1, 1);
+        grid.Attach(fromMinuteBox, 3, 2, 1, 1);
+        grid.Attach(new Label(":"), 4, 2, 1, 1);
+        grid.Attach(fromSecondBox, 5, 2, 1, 1);
+
+        grid.Attach(new Label("To: "), 0, 3, 1, 1);
+        grid.Attach(toHourBox, 1, 3, 1, 1);
+        grid.Attach(new Label(":"), 2, 3, 1, 1);
+        grid.Attach(toMinuteBox, 3, 3, 1, 1);
+        grid.Attach(new Label(":"), 4, 3, 1, 1);
+        grid.Attach(toSecondBox, 5, 3, 1, 1);
+
+        grid.ColumnSpacing = 10;
+        grid.RowSpacing = 5;
+        grid.Margin = 5;
+        ContentArea.Add(grid);
+        ShowAll();
     }
 }
 

@@ -77,8 +77,6 @@ class GraphicalCalendar : Window{
 
     void OnDaySelected(object? sender, EventArgs args){
         Calendar cal = (Calendar) sender;
-        // var addEventWindow = new AddEventWindow(this, cal.Month + 1 + "/" + cal.Day + "/" + cal.Year);
-        // label.Text = cal.Month + 1 + "/" + cal.Day + "/" + cal.Year;
         using (AddEventDialog d = new AddEventDialog(this, cal.Month + 1 + "/" + cal.Day + "/" + cal.Year))
             if (d.Run() == (int) ResponseType.Ok){
                 ComboBoxText[] comboBoxes = {
@@ -98,7 +96,17 @@ class GraphicalCalendar : Window{
                         return;
                     }
                 }
-                // TODO: Add Event Here 
+                UserEvent e = new UserEvent(d.eventNameEntry.Text, d.priorityBox.ActiveText,
+                                            cal.Year, cal.Month + 1, cal.Day, 
+                                            int.Parse(d.fromHourBox.ActiveText),
+                                            int.Parse(d.fromMinuteBox.ActiveText),
+                                            int.Parse(d.fromSecondBox.ActiveText),
+                                            cal.Year, cal.Month + 1, cal.Day,
+                                            int.Parse(d.toHourBox.ActiveText),
+                                            int.Parse(d.toMinuteBox.ActiveText),
+                                            int.Parse(d.toSecondBox.ActiveText));
+                // user.userCalendar.addUserEvent(e);
+                
             }
     }
 

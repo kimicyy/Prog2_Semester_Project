@@ -68,14 +68,18 @@ class UserCalendar{
         this.eventList = new List<UserEvent>();
         }
 
-    public void addUserEvent(UserEvent eve){
+    public (bool eventAdded, List<UserEvent> eventsEffected) addUserEvent(UserEvent eve){
         var eveStartDatetime = Convert.ToDateTime($"{eve.startYear}-{eve.startMonth}-{eve.startDay} {eve.startHour}:{eve.startMin}:{eve.startSec}");
         var eveEndDatetime = Convert.ToDateTime($"{eve.endYear}-{eve.endMonth}-{eve.endDay} {eve.endHour}:{eve.endMin}:{eve.endSec}");
-        for (int i = 0; true; i++){
-            if (i >= eventList.Count){
-                break;
-            }
-            var e = eventList[i];
+        bool eventAdded = false;
+        var eventsEffected = new List<UserEvent>();
+        var tempEvents = new PriorityQueue<UserEvent, double>();
+        foreach (var e in eventList){
+            tempEvents.Enqueue(e, e.priority);
+        }
+    
+        while (tempEvents.Count > 0){
+            var e = tempEvents.Dequeue();
             var eStartDatetime = Convert.ToDateTime($"{e.startYear}-{e.startMonth}-{e.startDay} {e.startHour}:{e.startMin}:{e.startSec}");
             var eEndDatetime = Convert.ToDateTime($"{e.endYear}-{e.endMonth}-{e.endDay} {e.endHour}:{e.endMin}:{e.endSec}");
             bool samePriority = false;
@@ -88,38 +92,36 @@ class UserCalendar{
                 (eveStartDatetime < eStartDatetime && eveEndDatetime > eEndDatetime) ||
                 (eveStartDatetime > eStartDatetime && eveEndDatetime < eEndDatetime) ||
                 (eveStartDatetime == eStartDatetime && eveEndDatetime == eEndDatetime)){
-                    WriteLine($"UserEvent \"{eve.eventName}\" and Userevent \"{e.eventName}\" overlapping detected!");
+                    // WriteLine($"UserEvent \"{eve.eventName}\" and Userevent \"{e.eventName}\" overlapping detected!");
                     if (eve.priority < e.priority){
-                        WriteLine($"UserEvent \"{eve.eventName}\": {eve.priorityStr}");
-                        WriteLine($"UserEvent \"{e.eventName}\": {e.priorityStr}");
-                        WriteLine($"UserEvent \"{e.eventName}\" will be deleted since it has lower priority");
+                        // WriteLine($"UserEvent \"{eve.eventName}\": {eve.priorityStr}");
+                        // WriteLine($"UserEvent \"{e.eventName}\": {e.priorityStr}");
+                        // WriteLine($"UserEvent \"{e.eventName}\" will be deleted since it has lower priority");
+                        eventsEffected.Add(e);
                         eventList.Remove(e);
                         continue;
                     }
                     else if (eve.priority > e.priority){
-                        WriteLine($"UserEvent \"{e.eventName}\": {e.priorityStr}");
-                        WriteLine($"UserEvent \"{eve.eventName}\": {eve.priorityStr}");
-                        WriteLine($"UserEvent \"{eve.eventName}\" will be deleted since it has lower priority");
-                        return;
+                        // WriteLine($"UserEvent \"{e.eventName}\": {e.priorityStr}");
+                        // WriteLine($"UserEvent \"{eve.eventName}\": {eve.priorityStr}");
+                        // WriteLine($"UserEvent \"{eve.eventName}\" will be deleted since it has lower priority");
+                        return (eventAdded, eventsEffected);
                     }
                     else{
                         samePriority = true;
                     }
                 if (samePriority){
-                    WriteLine($"UserEvent \"{eve.eventName}\": {eve.priorityStr}");
-                    WriteLine($"UserEvent \"{e.eventName}\": {e.priorityStr}");
-                    WriteLine($"UserEvent \"{eve.eventName}\" and UserEvent \"{e.eventName}\" have the same priority");
-                    WriteLine($"Please choose which event to delete! (1 for \"{eve.eventName}\", 2 for \"{e.eventName}\")");
-                    if (ReadLine()! == "2"){
-                        eventList.Remove(e);
-                    }
-                    else{
-                        return;
-                    }
+                    // WriteLine($"UserEvent \"{eve.eventName}\": {eve.priorityStr}");
+                    // WriteLine($"UserEvent \"{e.eventName}\": {e.priorityStr}");
+                    // WriteLine($"UserEvent \"{eve.eventName}\" and UserEvent \"{e.eventName}\" have the same priority");
+                    // WriteLine($"Please choose which event to delete! (1 for \"{eve.eventName}\", 2 for \"{e.eventName}\")");
+                    return (eventAdded, eventsEffected);
                 }
             }
         }
         eventList.Add(eve);
+        eventAdded = true;
+        return (eventAdded, eventsEffected);
     }
 
     public void deleteUserEvent(UserEvent eve){
@@ -151,17 +153,17 @@ class User{
     }
 }
 
-// class Top{
-//     static void Main(){
-//         var user1 = new User("Kimi");
-//         user1.userCalendar.addUserEvent(new UserEvent("Make Lunch", "Urgent", 2023, 8, 14, 11, 0, 0, 
-//         2023, 8, 14, 12, 0, 0));
-//         user1.userCalendar.addUserEvent(new UserEvent("Do Homework", "Trivial", 2023, 8, 14, 11, 0, 0, 
-//         2023, 8, 14, 12, 0, 0));
-//         user1.userCalendar.addUserEvent(new UserEvent("Make Dinner", "Urgent", 2023, 8, 14, 18, 0, 0, 
-//         2023, 8, 14, 19, 0, 0));
-//         user1.userCalendar.deleteUserEvent(new UserEvent("Make Lunch", "Urgent", 2023, 8, 14, 11, 0, 0, 
-//         2023, 8, 14, 12, 0, 0));
-//         user1.userCalendar.generateSchedule();
-//     }
-// }
+class Top{
+    static void Main(){
+        var user1 = new User("Kimi");
+        user1.userCalendar.addUserEvent(new UserEvent("Make Lunch", "Urgent", 2023, 8, 14, 11, 0, 0, 
+        2023, 8, 14, 12, 0, 0));
+        user1.userCalendar.addUserEvent(new UserEvent("Do Homework", "Trivial", 2023, 8, 14, 11, 0, 0, 
+        2023, 8, 14, 12, 0, 0));
+        user1.userCalendar.addUserEvent(new UserEvent("Make Dinner", "Urgent", 2023, 8, 14, 18, 0, 0, 
+        2023, 8, 14, 19, 0, 0));
+        // user1.userCalendar.deleteUserEvent(new UserEvent("Make Lunch", "Urgent", 2023, 8, 14, 11, 0, 0, 
+        // 2023, 8, 14, 12, 0, 0));
+        user1.userCalendar.generateSchedule();
+    }
+}

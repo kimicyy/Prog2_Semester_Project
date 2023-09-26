@@ -94,7 +94,8 @@ class UserCalendar{
                 (eveStartDatetime == eStartDatetime && eveEndDatetime == eEndDatetime) || 
                 (eveStartDatetime == eStartDatetime && eveEndDatetime > eEndDatetime) ||
                 (eveStartDatetime < eStartDatetime && eveEndDatetime == eEndDatetime) ||
-                (eveStartDatetime > eStartDatetime && eveEndDatetime == eEndDatetime)){
+                (eveStartDatetime > eStartDatetime && eveEndDatetime == eEndDatetime) ||
+                (eveStartDatetime == eStartDatetime && eveEndDatetime < eEndDatetime)){
                     // WriteLine($"UserEvent \"{eve.eventName}\" and Userevent \"{e.eventName}\" overlapping detected!");
                     if (eve.priority < e.priority){
                         // WriteLine($"UserEvent \"{eve.eventName}\": {eve.priorityStr}");

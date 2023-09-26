@@ -96,29 +96,18 @@ class UserCalendar{
                 (eveStartDatetime < eStartDatetime && eveEndDatetime == eEndDatetime) ||
                 (eveStartDatetime > eStartDatetime && eveEndDatetime == eEndDatetime) ||
                 (eveStartDatetime == eStartDatetime && eveEndDatetime < eEndDatetime)){
-                    // WriteLine($"UserEvent \"{eve.eventName}\" and Userevent \"{e.eventName}\" overlapping detected!");
                     if (eve.priority < e.priority){
-                        // WriteLine($"UserEvent \"{eve.eventName}\": {eve.priorityStr}");
-                        // WriteLine($"UserEvent \"{e.eventName}\": {e.priorityStr}");
-                        // WriteLine($"UserEvent \"{e.eventName}\" will be deleted since it has lower priority");
                         eventsEffected.Add(e);
                         eventList.Remove(e);
                         continue;
                     }
                     else if (eve.priority > e.priority){
-                        // WriteLine($"UserEvent \"{e.eventName}\": {e.priorityStr}");
-                        // WriteLine($"UserEvent \"{eve.eventName}\": {eve.priorityStr}");
-                        // WriteLine($"UserEvent \"{eve.eventName}\" will be deleted since it has lower priority");
                         return (eventAdded, eventsEffected);
                     }
                     else{
                         samePriority = true;
                     }
                 if (samePriority){
-                    // WriteLine($"UserEvent \"{eve.eventName}\": {eve.priorityStr}");
-                    // WriteLine($"UserEvent \"{e.eventName}\": {e.priorityStr}");
-                    // WriteLine($"UserEvent \"{eve.eventName}\" and UserEvent \"{e.eventName}\" have the same priority");
-                    // WriteLine($"Please choose which event to delete! (1 for \"{eve.eventName}\", 2 for \"{e.eventName}\")");
                     return (eventAdded, eventsEffected);
                 }
             }

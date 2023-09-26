@@ -64,6 +64,7 @@ class UserNameWindow : Window{
 
 class GraphicalCalendar : Window{
     public User user;
+    public Button generate = new Button("Generate Schedule");
 
     public GraphicalCalendar(string userName) : base($"{userName}'s Calendar"){
         SetDefaultSize(320, 280);
@@ -71,13 +72,18 @@ class GraphicalCalendar : Window{
         calendar.DaySelected += OnDaySelected;
         Fixed fix = new Fixed();
         fix.Put(calendar, 20, 20);
+        fix.Put(generate, 20, 200);
         Add(fix);
         this.user = new User(userName);
+        generate.Clicked += onGenerate;
     }
 
     void OnDaySelected(object? sender, EventArgs args){
         Calendar cal = (Calendar) sender;
-        using (AddEventDialog d = new AddEventDialog(this, cal.Month + 1 + "/" + cal.Day + "/" + cal.Year))
+        var eventsFound = user.userCalendar.getUserEvent(cal.Year, cal.Month + 1, cal.Day);
+        ShowEventDialog sd = new ShowEventDialog(this, eventsFound, cal.Month + 1 + "/" + cal.Day + "/" + cal.Year);
+        if (sd.Run() == (int) ResponseType.Ok){
+            using (AddEventDialog d = new AddEventDialog(sd, cal.Month + 1 + "/" + cal.Day + "/" + cal.Year))
             if (d.Run() == (int) ResponseType.Ok){
                 ComboBoxText[] comboBoxes = {
                     d.priorityBox,
@@ -121,6 +127,15 @@ class GraphicalCalendar : Window{
                     createSimpleMessageDialog("Fail to add event since there is other event with higher or equal priority!");
                 }
             }
+            sd.Destroy();
+        }
+        if (sd.Run() == (int) ResponseType.Cancel){
+            if (sd.eventSelectedName != null){
+                user.userCalendar.deleteUserEvent(sd.eventSelectedName);
+            }
+            sd.Destroy();
+        }
+        
     }
 
     void createSimpleMessageDialog(string message){
@@ -130,7 +145,14 @@ class GraphicalCalendar : Window{
         }
     }
 
-    
+    void onGenerate(object? sender, EventArgs e){
+        var eventListGenerated = user.userCalendar.generateSchedule();
+        var sc = new ShowScheduleDialog(this, eventListGenerated, "Calendar: Schedule");
+        if (sc.Run() == (int) ResponseType.Ok){
+            sc.Destroy();
+        }
+    }
+
     protected override bool OnDeleteEvent(Event e) {
         Application.Quit();
         return true;
@@ -153,8 +175,8 @@ class AddEventDialog : Dialog{
     public ComboBoxText toSecondBox = new ComboBoxText();
     public Entry eventNameEntry = new Entry();
 
-    public AddEventDialog(GraphicalCalendar parent, string dateStr) : base(dateStr, parent,
-            DialogFlags.Modal, "Add", ResponseType.Ok, "Cancel", ResponseType.Cancel) {
+    public AddEventDialog(ShowEventDialog parent, string dateStr) : base(dateStr, parent,
+            DialogFlags.Modal, "Add", ResponseType.Ok) {
         SetDefaultSize(560, 300);
         
         foreach (var priorityStr in priorityLevel) {
@@ -211,6 +233,11 @@ class AddEventDialog : Dialog{
         ContentArea.Add(grid);
         ShowAll();
     }
+
+    protected override bool OnDeleteEvent(Event e) {
+        Destroy();
+        return true;
+    }
 }
 
 class SimpleMessageDialog : Gtk.MessageDialog{
@@ -219,6 +246,76 @@ class SimpleMessageDialog : Gtk.MessageDialog{
                                                                                 MessageType.Info, 
                                                                                 ButtonsType.Ok, 
                                                                                 "{0}", message){
+        ShowAll();
+    }
+}
+
+class ShowEventDialog : Dialog{
+    public string? eventSelectedName = null;
+    public ShowEventDialog(GraphicalCalendar parent, List<UserEvent> eventFound, 
+                            string dateStr) : base(dateStr, parent, DialogFlags.Modal, 
+                            "Add", ResponseType.Ok, "Delete", ResponseType.Cancel) {
+        Grid grid = new Grid();
+        var addButton = new RadioButton("Add New Event");
+        addButton.Clicked += onClicked;
+        if (eventFound.Count == 0){
+            grid.Attach(new Label("No event"), 0, 0, 1, 1);
+            grid.Attach(addButton, 0, 1, 1, 1);    
+        }
+        else{
+            var buttons = new List<RadioButton>();
+            for (int i = 0; i < eventFound.Count; i++){
+                var b = new RadioButton(addButton, $"{eventFound[i].eventName}");
+                grid.Attach(b, 0, i, 1, 1);
+                grid.Attach(new Label($"\n\tFrom: {eventFound[i].startHour:00}:{eventFound[i].startMin:00}:{eventFound[i].startSec:00}\n\tTo:\t   {eventFound[i].endHour:00}:{eventFound[i].endMin:00}:{eventFound[i].endSec:00}"), 1, i, 1, 1);
+                grid.Attach(new Label($"Priority: {eventFound[i].priorityStr}"), 2, i, 1, 1);
+                buttons.Add(b);
+                b.Clicked += onClicked;
+            }
+            grid.Attach(addButton, 0, eventFound.Count, 1, 1);
+        }
+        
+        grid.ColumnSpacing = 10;
+        grid.RowSpacing = 5;
+        grid.Margin = 5;
+        ContentArea.Add(grid);
+        ShowAll();
+    }
+    
+    void onClicked(object? sender, EventArgs e) {
+        RadioButton b = (RadioButton) sender;
+        if (b.Label != "Add New Event"){
+            eventSelectedName = b.Label;
+        }
+    }
+
+    protected override bool OnDeleteEvent(Event e) {
+        Destroy();
+        return true;
+    }
+
+}
+
+class ShowScheduleDialog : Dialog{
+    public ShowScheduleDialog(GraphicalCalendar parent, List<UserEvent> eventListGenerated, 
+                            string title) : base(title, parent, DialogFlags.Modal, 
+                            "Ok", ResponseType.Ok){
+        var grid = new Grid();
+        if (eventListGenerated.Count <= 0){
+            grid.Attach(new Label("No event"), 0, 0, 1, 1);
+        }
+        else{
+            for (int i = 0; i < eventListGenerated.Count; i++){
+                grid.Attach(new Label($"{eventListGenerated[i].eventName}"), 0, i, 1, 1);
+                grid.Attach(new Label($"\n\tFrom: {eventListGenerated[i].startHour:00}:{eventListGenerated[i].startMin:00}:{eventListGenerated[i].startSec:00}\n\tTo:\t   {eventListGenerated[i].endHour:00}:{eventListGenerated[i].endMin:00}:{eventListGenerated[i].endSec:00}"), 1, i, 1, 1);
+                grid.Attach(new Label($"Priority: {eventListGenerated[i].priorityStr}"), 2, i, 1, 1);
+            }
+        }
+
+        grid.ColumnSpacing = 10;
+        grid.RowSpacing = 5;
+        grid.Margin = 5;
+        ContentArea.Add(grid);
         ShowAll();
     }
 }

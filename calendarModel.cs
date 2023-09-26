@@ -117,9 +117,16 @@ class UserCalendar{
         return (eventAdded, eventsEffected);
     }
 
-    public void deleteUserEvent(UserEvent eve){
+    public void deleteUserEvent(string eventToDeleteName){
+        var eventToDelete = new UserEvent("Dummy", "Urgent", 1970, 1, 1, 1, 1, 1, 1970, 1, 1, 1, 1, 1);
+        foreach (var e in eventList){
+            if (e.eventName == eventToDeleteName){
+                eventToDelete = e;
+                break;
+            }
+        }
         for (int i = 0; i < eventList.Count; i++){
-            if (UserEvent.eventsEqual(eventList[i], eve)){
+            if (UserEvent.eventsEqual(eventList[i], eventToDelete)){
                 eventList.Remove(eventList[i]);
             }
         }

@@ -125,6 +125,16 @@ class UserCalendar{
         }
     }
 
+    public List<UserEvent> getUserEvent(int year, int month, int day){
+        var eventsFound = new List<UserEvent>();
+        foreach (var e in eventList){
+            if (e.startYear == year && e.startMonth == month && e.startDay == day){
+                eventsFound.Add(e);
+            }
+        }
+        return eventsFound;
+    }
+
     public void generateSchedule(){
         foreach (var e in eventList){
             events.Enqueue(e, e.priority);
